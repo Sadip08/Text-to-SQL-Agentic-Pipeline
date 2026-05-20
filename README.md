@@ -8,24 +8,6 @@ An advanced, secure FastAPI-powered data assistant capable of translating natura
 
 Developed as part of the **Fusemachines AI Fellowship 2026** curriculum.
 
----
-
-## 📋 Table of Contents
-
-1. [System Architecture](https://www.google.com/search?q=%23-system-architecture)
-2. [Project Directory Tree](https://www.google.com/search?q=%23-project-directory-tree)
-3. [Prerequisites & Environment Setup](https://www.google.com/search?q=%23-prerequisites--environment-setup)
-4. [API Reference & Endpoint Contracts](https://www.google.com/search?q=%23-api-reference--endpoint-contracts)
-* [Task 4: Autonomous Agent Endpoint (`POST /agent/sql`)](https://www.google.com/search?q=%23task-4-autonomous-agent-endpoint-post-agentsql)
-* [Task 3: Structured Pipeline Endpoint (`POST /api/v1/execute-text2sql`)](https://www.google.com/search?q=%23task-3-structured-pipeline-endpoint-post-apiv1execute-text2sql)
-
-
-5. [Autonomous Self-Healing & Trace Logs](https://www.google.com/search?q=%23-autonomous-self-healing--trace-logs)
-6. [Evaluation Test Suite](https://www.google.com/search?q=%23-evaluation-test-suite)
-7. [Git Version Checkout Guide](https://www.google.com/search?q=%23-git-version-checkout-guide)
-
----
-
 ## 🏗️ System Architecture
 
 The pipeline decouples raw human queries into verifiable database transactions using a multi-layered agent design:

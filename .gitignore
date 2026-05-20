@@ -1,0 +1,12 @@
+# Python bytecode caches
+__pycache__/
+*.pyc
+
+# Environment configurations & keys
+.env
+
+# Optional: Local logs if you don't want runtime history public
+# logs/query_execution.log
+
+Week_3_Task_3.docs
+venv/

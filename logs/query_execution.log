@@ -22,3 +22,63 @@ LINE 1: SELECT "country", COUNT("customernumber") FROM customers;
 HINT:  Perhaps you meant to reference the column "customers.customerNumber".
 
 [2026-05-18 22:45:12] STATUS: SUCCESS_AFTER_RETRY | QUERY: SELECT "country", COUNT("customerNumber") FROM customers GROUP BY "country";
+[2026-05-20 23:30:12] [DECOMPOSITION] Question: Show all customer names and cities | Plan: To show all customer names and cities, we need to select the 'customerName' and 'city' columns from the 'customers' table. Since we are not performing any aggregations, we do not need a GROUP BY statement. The query will be a simple SELECT statement.
+[2026-05-20 23:30:12] [SQL_GENERATION] Initial Draft SQL: SELECT "customerName", "city" FROM customers;
+[2026-05-20 23:30:12] [EXECUTION_TIME] Query succeeded in 35.20ms
+[2026-05-20 23:30:12] [EXECUTION_SUCCESS] SQL Run: SELECT "customerName", "city" FROM customers;
+[2026-05-20 23:30:15] [DECOMPOSITION] Question: Number of orders per status | Plan: To find the number of orders per status, we need to count the number of rows in the 'orders' table for each unique 'status'. This can be achieved by using the COUNT aggregation function and grouping the results by the 'status' column.
+[2026-05-20 23:30:15] [SQL_GENERATION] Initial Draft SQL: SELECT "status", COUNT("orderNumber") FROM orders GROUP BY "status";
+[2026-05-20 23:30:15] [EXECUTION_TIME] Query succeeded in 28.53ms
+[2026-05-20 23:30:15] [EXECUTION_SUCCESS] SQL Run: SELECT "status", COUNT("orderNumber") FROM orders GROUP BY "status";
+[2026-05-20 23:30:17] [DECOMPOSITION] Question: Show all orders placed by customers in Germany | Plan: To solve this problem, we need to join the 'orders' table with the 'customers' table based on the 'customerNumber' column. Then, we filter the results to include only the rows where the 'country' is 'Germany'. Finally, we select all columns from the 'orders' table to show all orders placed by customers in Germany.
+[2026-05-20 23:30:17] [SQL_GENERATION] Initial Draft SQL: SELECT "orders".* FROM "orders" INNER JOIN "customers" ON "orders"."customerNumber" = "customers"."customerNumber" WHERE "customers"."country" = 'Germany';
+[2026-05-20 23:30:17] [EXECUTION_TIME] Query succeeded in 27.76ms
+[2026-05-20 23:30:17] [EXECUTION_SUCCESS] SQL Run: SELECT "orders".* FROM "orders" INNER JOIN "customers" ON "orders"."customerNumber" = "customers"."customerNumber" WHERE "customers"."country" = 'Germany';
+[2026-05-20 23:30:19] [DECOMPOSITION] Question: Total payments per customer | Plan: To find the total payments per customer, we need to sum up the 'amount' column in the 'payments' table and group the results by 'customerNumber'. This will give us the total payments made by each customer. We can then join this result with the 'customers' table to get the customer names if needed, but since the question only asks for total payments per customer, we can directly use the 'customerNumber' as the identifier.
+[2026-05-20 23:30:19] [SQL_GENERATION] Initial Draft SQL: SELECT "customerNumber", SUM("amount") AS total_payments FROM payments GROUP BY "customerNumber";
+[2026-05-20 23:30:19] [EXECUTION_TIME] Query succeeded in 34.14ms
+[2026-05-20 23:30:19] [EXECUTION_SUCCESS] SQL Run: SELECT "customerNumber", SUM("amount") AS total_payments FROM payments GROUP BY "customerNumber";
+[2026-05-20 23:30:21] [DECOMPOSITION] Question: Count customers per country (Test Case for Case-Insensitive Retry) | Plan: To solve this problem, we will use the SQL COUNT function in combination with the GROUP BY clause to count the number of customers per country. The 'customers' table contains the required information. We will group the results by the 'country' column and use the COUNT function to count the number of rows in each group. To ensure the query is case-insensitive, we will use the LOWER function to convert the 'country' column to lowercase before grouping.
+[2026-05-20 23:30:21] [SQL_GENERATION] Initial Draft SQL: SELECT LOWER("country") AS country, COUNT("customerNumber") AS customer_count FROM customers GROUP BY LOWER("country");
+[2026-05-20 23:30:21] [EXECUTION_TIME] Query succeeded in 47.53ms
+[2026-05-20 23:30:21] [EXECUTION_SUCCESS] SQL Run: SELECT LOWER("country") AS country, COUNT("customerNumber") AS customer_count FROM customers GROUP BY LOWER("country");
+[2026-05-20 23:31:01] [DECOMPOSITION] Question: How many shipped orders are from USA customers? | Plan: To solve this problem, we need to join the 'orders' table with the 'customers' table based on the 'customerNumber' column. Then, we filter the results to include only orders with a status of 'Shipped' and customers from the USA. Finally, we count the number of rows in the resulting table to get the total number of shipped orders from USA customers.
+[2026-05-20 23:31:01] [SQL_GENERATION] Initial Draft SQL: SELECT COUNT(*) FROM "orders" JOIN "customers" ON "orders"."customerNumber" = "customers"."customerNumber" WHERE "orders"."status" = 'Shipped' AND "customers"."country" = 'USA';
+[2026-05-20 23:31:01] [EXECUTION_TIME] Query succeeded in 32.83ms
+[2026-05-20 23:31:01] [EXECUTION_SUCCESS] SQL Run: SELECT COUNT(*) FROM "orders" JOIN "customers" ON "orders"."customerNumber" = "customers"."customerNumber" WHERE "orders"."status" = 'Shipped' AND "customers"."country" = 'USA';
+[2026-05-20 23:34:51] [DECOMPOSITION] Question: How many shipped orders are from USA customers? | Plan: To solve this problem, we need to join the 'orders' table with the 'customers' table based on the 'customerNumber' column. Then, we filter the results to include only orders with a status of 'Shipped' and customers from the USA. Finally, we count the number of rows in the resulting table to get the total number of shipped orders from USA customers.
+[2026-05-20 23:34:51] [SQL_GENERATION] Initial Draft SQL: SELECT COUNT(*) FROM "orders" JOIN "customers" ON "orders"."customerNumber" = "customers"."customerNumber" WHERE "orders".status = 'Shipped' AND "customers".country = 'USA';
+[2026-05-20 23:34:51] [EXECUTION_TIME] Query succeeded in 39.79ms
+[2026-05-20 23:34:51] [EXECUTION_SUCCESS] SQL Run: SELECT COUNT(*) FROM "orders" JOIN "customers" ON "orders"."customerNumber" = "customers"."customerNumber" WHERE "orders".status = 'Shipped' AND "customers".country = 'USA';
+[2026-05-20 23:35:15] [DECOMPOSITION] Question: How many shipped orders are from USA customers? | Plan: To solve this problem, we need to join the 'orders' table with the 'customers' table based on the 'customerNumber' column. Then, we filter the results to include only orders with a status of 'Shipped' and customers from the USA. Finally, we count the number of rows in the resulting table to get the total number of shipped orders from USA customers.
+[2026-05-20 23:35:15] [SQL_GENERATION] Initial Draft SQL: SELECT COUNT(*) FROM "orders" JOIN "customers" ON "orders"."customerNumber" = "customers"."customerNumber" WHERE "orders"."status" = 'Shipped' AND "customers"."country" = 'USA';
+[2026-05-20 23:35:15] [EXECUTION_TIME] Query succeeded in 36.63ms
+[2026-05-20 23:35:15] [EXECUTION_SUCCESS] SQL Run: SELECT COUNT(*) FROM "orders" JOIN "customers" ON "orders"."customerNumber" = "customers"."customerNumber" WHERE "orders"."status" = 'Shipped' AND "customers"."country" = 'USA';
+[2026-05-20 23:35:16] [DECOMPOSITION] Question: List all unique cities where customers live in Germany. | Plan: To solve this problem, we need to filter the 'customers' table to only include rows where the 'country' is 'Germany'. Then, we select the distinct 'city' from the filtered results to get the unique cities.
+[2026-05-20 23:35:16] [SQL_GENERATION] Initial Draft SQL: SELECT DISTINCT "city" FROM "customers" WHERE "country" = 'Germany';
+[2026-05-20 23:35:16] [EXECUTION_TIME] Query succeeded in 38.72ms
+[2026-05-20 23:35:16] [EXECUTION_SUCCESS] SQL Run: SELECT DISTINCT "city" FROM "customers" WHERE "country" = 'Germany';
+[2026-05-20 23:35:18] [DECOMPOSITION] Question: What is the total amount paid by customer number 124? | Plan: To find the total amount paid by a specific customer, we need to access the 'payments' table, which contains payment information. We will filter the results to only include payments made by the customer with 'customerNumber' 124. Then, we will use the SUM aggregation function to calculate the total amount paid.
+[2026-05-20 23:35:18] [SQL_GENERATION] Initial Draft SQL: SELECT SUM("amount") FROM payments WHERE "customerNumber" = 124;
+[2026-05-20 23:35:18] [EXECUTION_TIME] Query succeeded in 32.21ms
+[2026-05-20 23:35:18] [EXECUTION_SUCCESS] SQL Run: SELECT SUM("amount") FROM payments WHERE "customerNumber" = 124;
+[2026-05-20 23:35:58] [DECOMPOSITION] Question: How many shipped orders are from USA customers? | Plan: To solve this problem, we need to join the 'orders' table with the 'customers' table based on the 'customerNumber' column. Then, we filter the results to include only orders with a status of 'Shipped' and customers from the USA. Finally, we count the number of rows in the resulting table to get the total number of shipped orders from USA customers.
+[2026-05-20 23:35:58] [SQL_GENERATION] Initial Draft SQL: SELECT COUNT(*) FROM "orders" JOIN "customers" ON "orders"."customerNumber" = "customers"."customerNumber" WHERE "orders"."status" = 'Shipped' AND "customers"."country" = 'USA';
+[2026-05-20 23:35:58] [EXECUTION_TIME] Query succeeded in 27.20ms
+[2026-05-20 23:35:58] [EXECUTION_SUCCESS] SQL Run: SELECT COUNT(*) FROM "orders" JOIN "customers" ON "orders"."customerNumber" = "customers"."customerNumber" WHERE "orders"."status" = 'Shipped' AND "customers"."country" = 'USA';
+[2026-05-20 23:35:59] [DECOMPOSITION] Question: List all unique cities where customers live in Germany. | Plan: To solve this problem, we need to filter the 'customers' table to only include rows where the 'country' is 'Germany', then select the 'city' column and remove duplicates. This can be achieved by using the DISTINCT keyword in SQL.
+[2026-05-20 23:35:59] [SQL_GENERATION] Initial Draft SQL: SELECT DISTINCT "city" FROM "customers" WHERE "country" = 'Germany';
+[2026-05-20 23:35:59] [EXECUTION_TIME] Query succeeded in 27.27ms
+[2026-05-20 23:35:59] [EXECUTION_SUCCESS] SQL Run: SELECT DISTINCT "city" FROM "customers" WHERE "country" = 'Germany';
+[2026-05-20 23:36:01] [DECOMPOSITION] Question: What is the total amount paid by customer number 124? | Plan: To find the total amount paid by customer number 124, we need to query the 'payments' table, filtering by 'customerNumber' and then summing up the 'amount' column. Since we are only interested in a specific customer, we do not need to join any other tables. The query will be a simple SELECT statement with a WHERE clause to filter the customer and a SUM aggregation function to calculate the total amount paid.
+[2026-05-20 23:36:01] [SQL_GENERATION] Initial Draft SQL: SELECT SUM("amount") FROM payments WHERE "customerNumber" = 124;
+[2026-05-20 23:36:01] [EXECUTION_TIME] Query succeeded in 27.41ms
+[2026-05-20 23:36:01] [EXECUTION_SUCCESS] SQL Run: SELECT SUM("amount") FROM payments WHERE "customerNumber" = 124;
+[2026-05-20 23:36:01] [DECOMPOSITION] Question: Show the order date and status for all orders placed by customers in France. | Plan: To solve this problem, we need to join the 'orders' table with the 'customers' table based on the 'customerNumber' column. Then, we filter the results to include only customers from France. Finally, we select the 'orderDate' and 'status' columns from the 'orders' table.
+[2026-05-20 23:36:01] [SQL_GENERATION] Initial Draft SQL: SELECT o."orderDate", o."status" FROM "orders" o INNER JOIN "customers" c ON o."customerNumber" = c."customerNumber" WHERE c."country" = 'France';
+[2026-05-20 23:36:02] [EXECUTION_TIME] Query succeeded in 32.71ms
+[2026-05-20 23:36:02] [EXECUTION_SUCCESS] SQL Run: SELECT o."orderDate", o."status" FROM "orders" o INNER JOIN "customers" c ON o."customerNumber" = c."customerNumber" WHERE c."country" = 'France';
+[2026-05-20 23:36:02] [DECOMPOSITION] Question: Count the total number of customers per country. | Plan: To count the total number of customers per country, we need to select the 'country' column and use the COUNT function on the 'customerNumber' column. Since we are counting customers per country, we will use the GROUP BY statement to group the results by 'country'.
+[2026-05-20 23:36:02] [SQL_GENERATION] Initial Draft SQL: SELECT "country", COUNT("customerNumber") FROM customers GROUP BY "country";
+[2026-05-20 23:36:03] [EXECUTION_TIME] Query succeeded in 32.97ms
+[2026-05-20 23:36:03] [EXECUTION_SUCCESS] SQL Run: SELECT "country", COUNT("customerNumber") FROM customers GROUP BY "country";
